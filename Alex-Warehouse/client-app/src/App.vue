@@ -2,7 +2,7 @@
   <q-layout view="hhh lpr fff" class="bg-img">
 
     <q-page-container>
-      <Resume />
+      <RouterView></RouterView>
     </q-page-container>
 
 
@@ -15,7 +15,7 @@ import Resume from "@/views/Resume";
 export default {
   name: 'App',
   components: {
-    Resume
+    
   },
   data () {
     return {
