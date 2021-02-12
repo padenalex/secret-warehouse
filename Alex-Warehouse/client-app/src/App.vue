@@ -1,32 +1,32 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <q-layout view="hhh lpr fff" class="bg-img">
+
+    <q-page-container>
+      <RouterView></RouterView>
+    </q-page-container>
+
+
+  </q-layout>
 </template>
 
+<script>
+import Resume from "@/views/Resume";
+
+export default {
+  name: 'App',
+  components: {
+    
+  },
+  data () {
+    return {
+    }
+  }
+}
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.bg-img {
+  background-image: url(https://onlyvectorbackgrounds.com/wp-content/uploads/2019/01/Simple-Vector-Empty-Frame-Background-Purple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>
