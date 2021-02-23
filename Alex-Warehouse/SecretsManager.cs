@@ -1,23 +1,36 @@
-using System;
-using Google.Api;
-using Google.Api.Gax.Grpc;
+
 using Google.Cloud.SecretManager.V1;
 
 namespace Secret_Warehouse
 {
-    public class SecretsManager
+    public class SecretsMang
     {
-        public String GetSecret(string projectId = "supernova-303818", string secretId = "DatabaseConnectionString",
-            string secretVersionId = "3")
+        private SecretManagerServiceClient client;
+        private string projectId;
+        private string dbConnectionString;
+        
+        public SecretsMang()
         {
+            client = SecretManagerServiceClient.Create();
+            projectId = "supernova-303818";
+        }
 
-            var client = SecretManagerServiceClient.Create();
-
-            var secretVersionName = new SecretVersionName(projectId, secretId, secretVersionId);
-
-            var result = client.AccessSecretVersion(secretVersionName);
-
-            return result.Payload.Data.ToStringUtf8();
+        public string getDbString()
+        {
+            if (dbConnectionString != null)
+            {
+                return this.dbConnectionString;
+            }
+            else
+            {
+                const string secretId = "DatabaseConnectionString";
+                const string versionId = "3";
+                SecretVersionName secret = new SecretVersionName(projectId, secretId, versionId);
+                AccessSecretVersionResponse result = client.AccessSecretVersion(secret);
+                this.dbConnectionString = result.Payload.Data.ToStringUtf8();
+                return this.dbConnectionString;
+            }
+                
         }
     }
 }
