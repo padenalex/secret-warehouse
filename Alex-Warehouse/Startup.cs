@@ -35,8 +35,9 @@ namespace Secret_Warehouse
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Secret_Warehouse", Version = "v1"});
             });
+            string con = new SecretsManager().GetSecret();
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseNpgsql(con));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
