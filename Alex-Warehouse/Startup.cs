@@ -40,7 +40,7 @@ namespace Secret_Warehouse
             var secrets = new SecretsMang();
             
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseNpgsql(secrets.getDbString()));
+                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
