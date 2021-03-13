@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Secret_Warehouse.Models;
+using Secret_Warehouse.Repositories;
 
 namespace Secret_Warehouse.Controllers
 {
@@ -14,41 +15,42 @@ namespace Secret_Warehouse.Controllers
     public class ToDoController : Controller
     {
         // TODO: Setup repository pattern & new controller funcs
-        private readonly ApplicationDbContext _context;
+        private readonly IToDoRepository _repo;
 
-        public ToDoController(ApplicationDbContext context)
+        public ToDoController(IToDoRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
         
         [HttpGet]
         public async Task<JsonResult> GetAll()
         {
-            List<Todos> todos = await _context.Todos.ToListAsync();
+            IEnumerable<Todo> todos = await _repo.Get();
             return Json(todos);
         }
-        
+       /* 
         [HttpGet("{id}")]
         public async Task<JsonResult> Get(int id)
         {
-            Todos todo = await _context.Todos.FindAsync(id);
+            Todo todo = await _context.Todos.FindAsync(id);
             return Json(todo);
         }
-        
+        */
         [HttpPost]
         public async Task<JsonResult> CreateNew(string title, string description, bool completed)
         {
-            Todos todo = new Todos {Title = title,
+            Todo todo = new Todo {Title = title,
                 Description = description, Completed = completed};
-            await _context.Todos.AddAsync(todo);
-            await _context.SaveChangesAsync();
+            //await _context.Todos.AddAsync(todo);
+            //await _context.SaveChangesAsync();
+            _repo.Post(todo);
             return Json(todo);
         }
-
+/*
         [HttpPut]
         public async Task<JsonResult> UpdateTodo(int id, string title, string description, bool completed)
         {
-            Todos todo = await _context.Todos.FindAsync(id);
+            Todo todo = await _context.Todos.FindAsync(id);
             if (!string.IsNullOrEmpty(title)) { todo.Title = title; }
             if (!string.IsNullOrEmpty(description)) { todo.Description = description; }
             if (!completed==false) { todo.Completed = completed; }
@@ -61,10 +63,11 @@ namespace Secret_Warehouse.Controllers
         [HttpDelete("{id}")]
         public async Task<JsonResult> DeleteTodo(int id)
         {
-            Todos todo = await _context.Todos.FindAsync(id);
+            Todo todo = await _context.Todos.FindAsync(id);
             _context.Todos.Remove(todo);
             await _context.SaveChangesAsync();
             return Json(todo);
         }
+*/
     }
 }

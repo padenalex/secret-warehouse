@@ -2,7 +2,7 @@ using System;
 
 namespace Secret_Warehouse.Models
 {
-    public class Todos
+    public class Todo
     {
         public int Id { get; set; }
         public string Title { get; set; }

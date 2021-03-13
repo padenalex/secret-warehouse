@@ -11,7 +11,7 @@ const getters = {
 const actions = {
     async fetchTodos({ commit }: {commit: Function}) {
         const response = await axios.get(
-            'https://jsonplaceholder.typicode.com/todos'
+            '/api/todo'
         );
 
         commit('setTodos', response.data);
@@ -19,7 +19,7 @@ const actions = {
     
     async updateTodo({ commit }: {commit: Function}, updTodo: { id: any; }) {
         const response = await axios.put(
-            `https://jsonplaceholder.typicode.com/todos/${updTodo.id}`,
+            `/api/todo/${updTodo.id}`,
             updTodo
         );
 
