@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.EntityFrameworkCore;
 using Secret_Warehouse.Models;
+using Secret_Warehouse.Repositories;
 
 namespace Secret_Warehouse
 {
@@ -36,11 +37,16 @@ namespace Secret_Warehouse
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Secret_Warehouse", Version = "v1"});
             });
             
-            //suggestions?
-            var secrets = new SecretsMang();
+            services.AddScoped<IToDoRepository, ToDoRepository>();
             
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            //suggestions?
+            // secrets = new SecretsMang();
+            
+            //services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(opt =>
+            //    opt.UseNpgsql(secrets.getDbString()));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("LocalString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,5 +81,9 @@ namespace Secret_Warehouse
                 }
             });
         }
+    }
+
+    public interface ITodoRepository
+    {
     }
 }
