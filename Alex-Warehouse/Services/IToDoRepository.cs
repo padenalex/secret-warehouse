@@ -9,7 +9,7 @@ namespace Secret_Warehouse.Repositories
     {
         Task<List<Todo>> Get();
         
-        Todo GetToDoById(int id);  
+        Task<Todo> GetToDoById(int id);  
         
         void Post(Todo todo);
 

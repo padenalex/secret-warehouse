@@ -19,13 +19,13 @@ namespace Secret_Warehouse.Repositories
         
         public async Task<List<Todo>> Get()
         {
-            List<Todo> todos = _context.Todos.ToList();     
+            List<Todo> todos = await _context.Todos.ToListAsync();     
             return todos;
         }
 
-        public Todo GetToDoById(int id)
+        public async Task<Todo> GetToDoById(int id)
         {
-            Todo todo = _context.Todos.Find(id);
+            Todo todo = await _context.Todos.FindAsync(id);
             return todo;
         }
 
@@ -42,16 +42,16 @@ namespace Secret_Warehouse.Repositories
             Save();
         }
 
-        public void Delete(int? id)
+        public async void Delete(int? id)
         {
-            Todo todo = _context.Todos.Find(id);
+            Todo todo = await _context.Todos.FindAsync(id);
             if (todo != null) _context.Todos.Remove(todo);
             Save();
         }
 
-        public void Save()
+        public async void Save()
         {
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
     }
 }

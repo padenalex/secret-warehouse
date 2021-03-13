@@ -28,21 +28,19 @@ namespace Secret_Warehouse.Controllers
             List<Todo> todos = await _repo.Get();
             return Json(todos);
         }
-       /* 
+       
         [HttpGet("{id}")]
         public async Task<JsonResult> Get(int id)
         {
-            Todo todo = await _context.Todos.FindAsync(id);
+            Todo todo = await _repo.GetToDoById(id);
             return Json(todo);
         }
-        */
+        
         [HttpPost]
         public async Task<JsonResult> CreateNew(string title, string description, bool completed)
         {
             Todo todo = new Todo {Title = title,
                 Description = description, Completed = completed};
-            //await _context.Todos.AddAsync(todo);
-            //await _context.SaveChangesAsync();
             _repo.Post(todo);
             return Json(todo);
         }
@@ -50,9 +48,10 @@ namespace Secret_Warehouse.Controllers
         [HttpPut]
         public async Task<JsonResult> UpdateTodo(int id, string title, string description, bool completed)
         {
-            Todo todo = _repo.GetToDoById(id);
+            Todo todo = await _repo.GetToDoById(id);
             if (!string.IsNullOrEmpty(title)) { todo.Title = title; }
             if (!string.IsNullOrEmpty(description)) { todo.Description = description; }
+            // invalid logic
             if (completed != null) { todo.Completed = completed; }
             _repo.Update(todo);
             return Json(todo);
