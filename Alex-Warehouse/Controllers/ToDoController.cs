@@ -25,7 +25,7 @@ namespace Secret_Warehouse.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAll()
         {
-            IEnumerable<Todo> todos = await _repo.Get();
+            List<Todo> todos = await _repo.Get();
             return Json(todos);
         }
        /* 
@@ -46,28 +46,23 @@ namespace Secret_Warehouse.Controllers
             _repo.Post(todo);
             return Json(todo);
         }
-/*
+
         [HttpPut]
         public async Task<JsonResult> UpdateTodo(int id, string title, string description, bool completed)
         {
-            Todo todo = await _context.Todos.FindAsync(id);
+            Todo todo = _repo.GetToDoById(id);
             if (!string.IsNullOrEmpty(title)) { todo.Title = title; }
             if (!string.IsNullOrEmpty(description)) { todo.Description = description; }
-            if (!completed==false) { todo.Completed = completed; }
-
-            _context.Todos.Update(todo);
-            await _context.SaveChangesAsync();
+            if (completed != null) { todo.Completed = completed; }
+            _repo.Update(todo);
             return Json(todo);
         }
 
         [HttpDelete("{id}")]
-        public async Task<JsonResult> DeleteTodo(int id)
+        public void DeleteTodo(int id)
         {
-            Todo todo = await _context.Todos.FindAsync(id);
-            _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
-            return Json(todo);
+            _repo.Delete(id);
         }
-*/
+
     }
 }
