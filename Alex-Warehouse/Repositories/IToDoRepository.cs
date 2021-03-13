@@ -7,12 +7,16 @@ namespace Secret_Warehouse.Repositories
 {
     public interface IToDoRepository
     {
-        Task<IEnumerable<Todo>> Get();
+        Task<List<Todo>> Get();
+        
+        Todo GetToDoById(int id);  
         
         void Post(Todo todo);
 
-        //void Update(Todo todo);
+        void Update(Todo todo);
 
-        //void Delete(int? id);
+        void Delete(int? id);
+        
+        void Save(); 
     }
 }

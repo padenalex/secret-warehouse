@@ -17,17 +17,41 @@ namespace Secret_Warehouse.Repositories
             _context = context;
         }
         
-        public async Task<IEnumerable<Todo>> Get()
+        public async Task<List<Todo>> Get()
         {
-            var todos = await _context.Todos.ToListAsync();     
+            List<Todo> todos = _context.Todos.ToList();     
             return todos;
+        }
+
+        public Todo GetToDoById(int id)
+        {
+            Todo todo = _context.Todos.Find(id);
+            return todo;
         }
 
         public async void Post(Todo todo)
         {
             if(todo == null) { throw new ArgumentNullException(nameof(todo)); }
             await _context.Todos.AddAsync(todo);
-            await _context.SaveChangesAsync();
+            Save();
+        }
+
+        public async void Update(Todo todo)
+        {
+            _context.Entry(todo).State = EntityState.Modified;
+            Save();
+        }
+
+        public void Delete(int? id)
+        {
+            Todo todo = _context.Todos.Find(id);
+            if (todo != null) _context.Todos.Remove(todo);
+            Save();
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
     }
 }
