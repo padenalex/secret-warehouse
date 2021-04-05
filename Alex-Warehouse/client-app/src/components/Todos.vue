@@ -2,15 +2,25 @@
   <div>
     <h3>Todos</h3>
     <div class="legend">
-      <span>Double click to mark as complete</span>
-      <span>
-        <span class="incomplete-box"></span> = Incomplete
-      </span>
-      <span>
-        <span class="complete-box"></span> = Complete
-      </span>
+      <span><span class="incomplete-box"></span> = Incomplete</span>
+      <span><span class="complete-box"></span> = Complete</span>
     </div>
+
+
+    <div class="new">
+      <q-form
+          @submit="onSubmitNew"
+          ref="form"
+      >
+        <q-input name="title"></q-input>
+        <q-input name="description"></q-input>
+        <q-btn label="Submit" type="submit" color="primary"></q-btn>
+      </q-form>
+    </div><br/>
+    
+    
     <div class="todos">
+
       <div
           @dblclick="onDblClick(todo)"
           v-for="todo in allTodos"
@@ -20,6 +30,7 @@
       >
         {{ todo.title }}
       </div>
+
     </div>
   </div>
 </template>
@@ -30,16 +41,27 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Todos",
   methods: {
-    ...mapActions(["fetchTodos"]),
+    ...mapActions(["fetchTodos", "newTodo"]),
+    
     onDblClick(todo) {
       const updTodo = {
         id: todo.id,
         title: todo.title,
         completed: !todo.completed
       };
-
       this.updateTodo(updTodo);
-    }
+    },
+
+    onSubmitNew(evt) {
+      console.log(evt)
+      const created = {
+        title: evt.title,
+        description: evt.description,
+        completed: evt.completed
+      };
+      this.newTodo(created);
+    },
+    
   },
   computed: mapGetters(["allTodos"]),
   created() {

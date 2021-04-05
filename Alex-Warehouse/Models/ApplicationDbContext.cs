@@ -6,10 +6,10 @@ namespace Secret_Warehouse.Models
 {
     public class ApplicationDbContext:DbContext
     {
-        public DbSet<Thing> Things { get; set; }
+        //public DbSet<Thing> Things { get; set; }
         public DbSet<Todo> Todos { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options) {  }
         
-        public List<Thing> getThings () => Things.ToList<Thing>();
+        //public List<Thing> getThings () => Things.ToList<Thing>();
     }
 }
