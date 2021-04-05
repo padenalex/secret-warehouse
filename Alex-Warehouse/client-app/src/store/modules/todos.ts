@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const state = {
-    todos: []
+    todos: [],
+    todo: ''
 };
 
 const getters = {
@@ -13,8 +14,13 @@ const actions = {
         const response = await axios.get(
             '/api/todo'
         );
-
         commit('setTodos', response.data);
+    },
+    
+    async newTodo({ commit }: {commit: Function}, todo: { title:any; description:any; completed:any;}) {
+        const response = await axios.post('/api/todo', todo);
+      //  console.log(response.data);
+        commit('addTodo', response.data)
     },
     
     async updateTodo({ commit }: {commit: Function}, updTodo: { id: any; }) {
@@ -22,15 +28,14 @@ const actions = {
             `/api/todo/${updTodo.id}`,
             updTodo
         );
-
-        console.log(response.data);
-
+        //console.log(response.data);
         commit('updateTodo', response.data);
     }
 };
 
 const mutations = {
     setTodos: (state: { todos: Array<any>; }, todos: Array<any>) => (state.todos = todos),
+    addTodo: (state: { todos: Array<any>; }, todo: any) => (state.todos.unshift(todo)),
     updateTodo: (state: { todos: Array<any>; }, updTodo: any) => {
         const index = state.todos.findIndex(todo => todo.id === updTodo.id);
         if (index !== -1) {

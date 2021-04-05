@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex flex-center">
+    <router-link to="/tasks" tag="button">Todo Page</router-link>
     <div class="main shadow-box" :class="'shadow-13'">
       <div class="left">
 
